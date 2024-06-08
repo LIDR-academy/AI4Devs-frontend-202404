@@ -106,3 +106,4 @@ La tarjeta de cada candidato/a debe situarse en la fase correspondiente, y debe 
     - el diseño debe ser claro y legible
     - el diseño debe ser moderno y minimalista
 
+- quiero que añadas algunos comentarios a @PositionDetails.tsx @usePositionDetails.ts @DroppablePhase.tsx @DraggableCard.tsx  para facilitar la comprensión del codigo
