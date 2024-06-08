@@ -61,7 +61,7 @@ const Positions: React.FC = () => {
                                 <div className="d-flex justify-content-between mt-3">
                                     <Button variant="primary">
                                         <div className={styles.whiteText}>
-                                            <Link to={`/position/${index}/details`} style={{ color: 'white' }}>Ver proceso</Link>
+                                            <Link to={`/position/${index}/details`} style={{ color: 'white', textDecoration: 'none' }}>Ver proceso</Link>
                                         </div>
                                     </Button>
                                     <Button variant="secondary">Editar</Button>

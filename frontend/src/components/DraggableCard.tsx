@@ -1,3 +1,4 @@
+// Componente para representar una tarjeta draggable de un candidato
 import React from 'react';
 import { useDrag } from 'react-dnd';
 import { Card, Badge } from 'react-bootstrap';
@@ -12,6 +13,7 @@ interface Candidate {
 
 const ItemType = 'CANDIDATE';
 
+// Función para renderizar los círculos de puntuación
 const renderScoreCircles = (score: number) => {
     return Array.from({ length: score }, (_, index) => (
         <Badge key={index} pill bg="success" className="me-1">
@@ -22,8 +24,8 @@ const renderScoreCircles = (score: number) => {
 
 const DraggableCard: React.FC<{ candidate: Candidate, className?: string }> = ({ candidate, className }) => {
     const [, ref] = useDrag({
-        type: ItemType,
-        item: { id: candidate.candidateID, applicationID: candidate.applicationID },
+        type: ItemType, // Define el tipo de elemento draggable
+        item: { id: candidate.candidateID, applicationID: candidate.applicationID }, // Define el objeto draggable
     });
 
     return (
@@ -32,7 +34,7 @@ const DraggableCard: React.FC<{ candidate: Candidate, className?: string }> = ({
                 <Card.Body>
                     <Card.Title>{candidate.fullName}</Card.Title>
                     <Card.Text>
-                        {renderScoreCircles(candidate.averageScore)}
+                        {renderScoreCircles(candidate.averageScore)} 
                     </Card.Text>
                 </Card.Body>
             </Card>
