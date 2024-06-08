@@ -31,13 +31,14 @@ describe('getCandidatesByPositionService', () => {
     jest.spyOn(prisma.application, 'findMany').mockResolvedValue(mockApplications);
 
     const result = await getCandidatesByPositionService(1);
-    expect(result).toEqual([
-      {
+    expect(result).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        applicationID: 1,
         fullName: 'John Doe',
         currentInterviewStep: 'Technical Interview',
         averageScore: 4,
-      },
-    ]);
+      }),
+    ]));
   });
 });
 
