@@ -1,5 +1,7 @@
 import React from 'react';
 import { Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import styles from './PositionDetails.module.css';
 
 type Position = {
     title: string;
@@ -57,7 +59,11 @@ const Positions: React.FC = () => {
                                     {position.status}
                                 </span>
                                 <div className="d-flex justify-content-between mt-3">
-                                    <Button variant="primary">Ver proceso</Button>
+                                    <Button variant="primary">
+                                        <div className={styles.whiteText}>
+                                            <Link to={`/position/${index}/details`} style={{ color: 'white' }}>Ver proceso</Link>
+                                        </div>
+                                    </Button>
                                     <Button variant="secondary">Editar</Button>
                                 </div>
                             </Card.Body>

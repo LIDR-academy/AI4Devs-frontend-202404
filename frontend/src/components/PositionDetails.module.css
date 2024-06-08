@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+}
+
+.phaseBox {
+    background-color: #f4f4f4; /* Color claro para el fondo */
+    border-radius: 8px; /* Esquinas redondeadas para un look moderno */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra sutil */
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.candidateCard {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.container div.mb-2.card .card-body {
+    border: none !important;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+}
+
+.whiteText {
+    color: white !important;
+}
