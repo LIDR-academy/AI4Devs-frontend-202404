@@ -12,6 +12,16 @@ module.exports = {
   resolve: {
     alias: {
       react: path.resolve('./node_modules/react'),
+      'react-dom': path.resolve('./node_modules/react-dom'),
+    },
+    fallback: {
+      "http": require.resolve("stream-http"),
+      "https": require.resolve("https-browserify"),
+      "util": require.resolve("util/"),
+      "stream": require.resolve("stream-browserify"),
+      "zlib": require.resolve("browserify-zlib"),
+      "url": require.resolve("url/"),
+      "assert": require.resolve("assert/")
     }
   },
   module: {
