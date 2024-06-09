@@ -50,7 +50,7 @@ Este endpoint devuelve información sobre el proceso de contratación para una d
 
 Ejemplo de respuesta:
 
-```
+```JSON
 {
      "positionName": "Senior backend engineer",
      "interviewFlow": {
@@ -136,7 +136,7 @@ Este endpoint actualiza la etapa del candidato movido. Permite modificar la fase
 
 Ejemplo de body:
 
-```
+```JSON
 {
     "applicationId": "1",
     "currentInterviewStep": "3"
@@ -145,7 +145,7 @@ Ejemplo de body:
 
 Ejemplo de respuesta:
 
-```
+```JSON
 {
    "message": "Candidate stage updated successfully",
     "data": {
