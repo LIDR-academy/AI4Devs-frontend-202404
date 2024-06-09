@@ -1,20 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
+import axios from 'axios';
 
 type Position = {
     title: string;
-    manager: string;
-    deadline: string;
-    status: 'Abierto' | 'Contratado' | 'Cerrado' | 'Borrador';
+    contactInfo: string;
+    applicationDeadline: string;
+    status: 'Open' | 'Contratado' | 'Cerrado' | 'Borrador';
 };
 
-const mockPositions: Position[] = [
-    { title: 'Senior Backend Engineer', manager: 'John Doe', deadline: '2024-12-31', status: 'Abierto' },
-    { title: 'Junior Android Engineer', manager: 'Jane Smith', deadline: '2024-11-15', status: 'Contratado' },
-    { title: 'Product Manager', manager: 'Alex Jones', deadline: '2024-07-31', status: 'Borrador' }
-];
-
 const Positions: React.FC = () => {
+    const [positions, setPositions] = useState<Position[]>([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchPositions = async () => {
+            try {
+                const response = await axios.get('http://localhost:3010/position');
+                const formattedPositions = response.data.map((pos: Position) => ({
+                    ...pos,
+                    applicationDeadline: formatDate(pos.applicationDeadline)
+                }));
+                setPositions(formattedPositions);
+            } catch (error) {
+                console.error('Failed to fetch positions', error);
+            }
+        };
+
+        fetchPositions();
+    }, []);
+
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-indexed
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
     return (
         <Container className="mt-5">
             <h2 className="text-center mb-4">Posiciones</h2>
@@ -44,20 +68,20 @@ const Positions: React.FC = () => {
                 </Col>
             </Row>
             <Row>
-                {mockPositions.map((position, index) => (
+                {positions.map((position, index) => (
                     <Col md={4} key={index} className="mb-4">
                         <Card className="shadow-sm">
                             <Card.Body>
                                 <Card.Title>{position.title}</Card.Title>
                                 <Card.Text>
-                                    <strong>Manager:</strong> {position.manager}<br />
-                                    <strong>Deadline:</strong> {position.deadline}
+                                    <strong>Manager:</strong> {position.contactInfo}<br />
+                                    <strong>Deadline:</strong> {position.applicationDeadline}
                                 </Card.Text>
-                                <span className={`badge ${position.status === 'Abierto' ? 'bg-warning' : position.status === 'Contratado' ? 'bg-success' : position.status === 'Borrador' ? 'bg-secondary' : 'bg-warning'} text-white`}>
+                                <span className={`badge ${position.status === 'Open' ? 'bg-warning' : position.status === 'Contratado' ? 'bg-success' : position.status === 'Borrador' ? 'bg-secondary' : 'bg-warning'} text-white`}>
                                     {position.status}
                                 </span>
                                 <div className="d-flex justify-content-between mt-3">
-                                    <Button variant="primary">Ver proceso</Button>
+                                    <Button variant="primary" onClick={() => navigate('/process-status')}>Ver proceso</Button>
                                     <Button variant="secondary">Editar</Button>
                                 </div>
                             </Card.Body>
