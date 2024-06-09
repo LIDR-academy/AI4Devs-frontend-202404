@@ -4,13 +4,15 @@ Para desarrollar toda la estructura HTML y estilos básicos del componente utili
 
 Solo tuve que enviarle una captura y dar una explicación muy breve y desarrolló perfectamente el componente. Como esta herramienta aplica tailwind, en uno de los prompts le pido al asistente que lo tenga en cuenta para el desarrollo. 
 
+### A tener en cuenta
+
 El resto del desarrollo se ha hecho con Cursor. Solo he interactuado para cambios ínfimos y debugear.
 
 No he ampliado las features, hecho testing, refactoring, documentación, etc.. por falta de tiempo ya que hoy mismo he visto que la entrega era para hoy y prefería entregar el objetivo mínimo de la tarea.
 
 ### Prompts
 
-Si no hay ninguna anotación tras el prompt significa que este dio buen resultado en su primera respuesta y/o que no hay nada interesante a mencionar sobre esta respuesta.
+_**Si no hay ninguna anotación tras el prompt significa que este dio buen resultado en su primera respuesta y/o que no hay nada interesante a mencionar sobre esta respuesta.**_
 
 #### NEW CHAT (1) - GOAL: Initial structure
 
