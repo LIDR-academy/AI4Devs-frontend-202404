@@ -1,0 +1,33 @@
+/* frontend/src/styles/PositionDetail.css */
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row;
+    }
+}
+
+.card {
+    margin: 10px;
+    flex-grow: 1;
+}
+
+/* Aumentar el tamaño de los botones y enlaces para facilitar la interacción táctil */
+.button, .link {
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 16px;
+}
+
+/* Mejorar la visibilidad del foco para navegación con teclado */
+.button:focus, .link:focus {
+    outline: 3px solid #0056b3;
+    outline-offset: 2px;
+}
+
+.elemento:focus {
+    outline: 2px solid blue;
+}

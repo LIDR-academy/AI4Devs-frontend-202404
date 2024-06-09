@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+button:focus, a:focus {
+    outline: 3px solid #0056b3; /* Estilo de enfoque claro */
+}
+
+.texto {
+    color: #000; /* Texto de alto contraste */
+    background-color: #fff;
+}
+
+.button-large {
+    padding: 15px 30px; /* Botones grandes para fácil interacción */
+    font-size: 16px;
+}

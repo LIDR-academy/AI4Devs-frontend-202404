@@ -1,7 +1,9 @@
 import React from 'react';
 import { Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 type Position = {
+    id: number;
     title: string;
     manager: string;
     deadline: string;
@@ -9,9 +11,9 @@ type Position = {
 };
 
 const mockPositions: Position[] = [
-    { title: 'Senior Backend Engineer', manager: 'John Doe', deadline: '2024-12-31', status: 'Abierto' },
-    { title: 'Junior Android Engineer', manager: 'Jane Smith', deadline: '2024-11-15', status: 'Contratado' },
-    { title: 'Product Manager', manager: 'Alex Jones', deadline: '2024-07-31', status: 'Borrador' }
+    { id: 1, title: 'Senior Backend Engineer', manager: 'John Doe', deadline: '2024-12-31', status: 'Abierto' },
+    { id: 2, title: 'Junior Android Engineer', manager: 'Jane Smith', deadline: '2024-11-15', status: 'Contratado' },
+    { id: 3, title: 'Product Manager', manager: 'Alex Jones', deadline: '2024-07-31', status: 'Borrador' }
 ];
 
 const Positions: React.FC = () => {
@@ -26,7 +28,7 @@ const Positions: React.FC = () => {
                     <Form.Control type="date" placeholder="Buscar por fecha" />
                 </Col>
                 <Col md={3}>
-                    <Form.Control as="select">
+                    <Form.Control as="select" aria-label="Filter by status">
                         <option value="">Estado</option>
                         <option value="open">Abierto</option>
                         <option value="filled">Contratado</option>
@@ -35,7 +37,7 @@ const Positions: React.FC = () => {
                     </Form.Control>
                 </Col>
                 <Col md={3}>
-                    <Form.Control as="select">
+                    <Form.Control as="select" aria-label="Filter by manager">
                         <option value="">Manager</option>
                         <option value="john_doe">John Doe</option>
                         <option value="jane_smith">Jane Smith</option>
@@ -57,7 +59,11 @@ const Positions: React.FC = () => {
                                     {position.status}
                                 </span>
                                 <div className="d-flex justify-content-between mt-3">
-                                    <Button variant="primary">Ver proceso</Button>
+                                    <Button variant="primary">
+                                        <Link to={`/position-detail/${position.id}`} style={{ color: 'white', textDecoration: 'none' }}>
+                                            Ver proceso
+                                        </Link>
+                                    </Button>
                                     <Button variant="secondary">Editar</Button>
                                 </div>
                             </Card.Body>
