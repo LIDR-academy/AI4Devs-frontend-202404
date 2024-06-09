@@ -25,10 +25,10 @@ export const sendCandidateData = async (candidateData) => {
     }
 };
 
-export const updateCandidateInterviewStep = async (candidateId, newInterviewStepId) => {
+export const updateCandidateInterviewStep = async (candidateId, applicationId, newInterviewStepId) => {
     try {
-        const response = await axios.put(`http://localhost:3010/candidate/${candidateId}`, {
-            applicationId: candidateId,
+        const response = await axios.put(`http://localhost:3010/candidates/${candidateId}`, {
+            applicationId: applicationId,
             currentInterviewStep: newInterviewStepId
         });
         return response.data;

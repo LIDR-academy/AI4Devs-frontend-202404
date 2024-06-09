@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Container, Row, Col } from 'react-bootstrap';
+import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 import { getPositionCandidates, getPositionInterviewFlow } from '../services/positionService';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import { updateCandidateInterviewStep } from '../services/candidateService'; // Import the updateCandidateInterviewStep function
 
 const PositionView: React.FC = () => {
     const [positionData, setPositionData] = useState<any>(null);
@@ -12,9 +13,9 @@ const PositionView: React.FC = () => {
     useEffect(() => {
         const fetchPositionData = async () => {
             try {
-                const data = await getPositionInterviewFlow(id); // Assuming positionId is 1, you can adjust this as needed
+                const data = await getPositionInterviewFlow(id);
                 setPositionData(data.interviewFlow);
-                const candidatesResponse = await getPositionCandidates(id); // Assuming positionId is 1, you can adjust this as needed
+                const candidatesResponse = await getPositionCandidates(id);
                 setCandidates(candidatesResponse);
             } catch (error) {
                 console.error('Error fetching position data:', error);
@@ -28,15 +29,16 @@ const PositionView: React.FC = () => {
         setDraggedCandidate(candidate);
     };
 
-    const handleDrop = (stepName: string) => {
+    const handleDrop = async (stepName: string, stepId: number) => {
         if (draggedCandidate) {
-            const updatedCandidates = candidates.map((candidate: any) => {
+            const updatedCandidates = candidates.map(async (candidate: any) => {
                 if (candidate === draggedCandidate) {
+                    await updateCandidateInterviewStep(candidate.candidateId, candidate.applicationId, stepId); // Call the updateCandidateInterviewStep function
                     return { ...candidate, currentInterviewStep: stepName };
                 }
                 return candidate;
             });
-            setCandidates(updatedCandidates);
+            setCandidates(await Promise.all(updatedCandidates));
         }
     };
 
@@ -48,7 +50,7 @@ const PositionView: React.FC = () => {
                 draggable
                 onDragStart={() => handleDragStart(candidate)}
                 onDragOver={(e) => e.preventDefault()}
-                onDrop={() => handleDrop(candidate.currentInterviewStep)}
+                onDrop={() => handleDrop(candidate.currentInterviewStep, 0)}
             >
                 <Card.Body>
                     <Card.Title>{candidate.fullName}</Card.Title>
@@ -62,10 +64,13 @@ const PositionView: React.FC = () => {
 
     return (
         <Container className="mt-5">
+            <Link to="/positions">
+                <Button variant="primary" className="mb-3">←</Button>
+            </Link>
             <h2 className="text-center mb-4">Posición: {positionData?.positionName}</h2>
             <Row>
                 {positionData?.interviewFlow?.interviewSteps.map((step: any, index: number) => (
-                    <Col key={index} md={3} className="mb-4" onDragOver={(e) => e.preventDefault()} onDrop={() => handleDrop(step.name)}>
+                    <Col key={index} md={3} className="mb-4" onDragOver={(e) => e.preventDefault()} onDrop={() => handleDrop(step.name, step.id)}>
                         <Card className="shadow-sm">
                             <Card.Body>
                                 <h4 className="text-center">{step.name}</h4>
@@ -80,4 +85,3 @@ const PositionView: React.FC = () => {
 };
 
 export default PositionView;
-
