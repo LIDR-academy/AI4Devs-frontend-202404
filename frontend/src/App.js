@@ -4,14 +4,16 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import RecruiterDashboard from './components/RecruiterDashboard';
 import AddCandidate from './components/AddCandidateForm'; 
 import Positions from './components/Positions'; 
+import Position from './components/Position';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<RecruiterDashboard />} />
-        <Route path="/add-candidate" element={<AddCandidate />} /> {/* Agrega esta línea */}
+        <Route path="/add-candidate" element={<AddCandidate />} />
         <Route path="/positions" element={<Positions />} />
+        <Route path="/position" element={<Position />} />
       </Routes>
     </BrowserRouter>
   );
