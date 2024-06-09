@@ -21,6 +21,8 @@ export const getCandidatesByPositionService = async (positionId: number) => {
         });
 
         return applications.map(app => ({
+            applicationId: app.id,
+            candidateId: app.candidate.id,
             fullName: `${app.candidate.firstName} ${app.candidate.lastName}`,
             currentInterviewStep: app.interviewStep.name,
             averageScore: calculateAverageScore(app.interviews)
@@ -62,4 +64,15 @@ export const getInterviewFlowByPositionService = async (positionId: number) => {
             }))
         }
     };
+};
+
+export const getAllPositionsService = async () => {
+    try {
+        return await prisma.position.findMany({
+            where: { isVisible: true }
+        });
+    } catch (error) {
+        console.error('Error retrieving all positions:', error);
+        throw new Error('Error retrieving all positions');
+    }
 };

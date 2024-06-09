@@ -6,5 +6,6 @@
     "schema": "backend/prisma/schema.prisma"
   },
   "devDependencies": {
+    "@types/react-beautiful-dnd": "^13.1.8"
   }
 }
