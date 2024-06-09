@@ -1,0 +1,100 @@
+/* Estilos para el contenedor principal */
+.container {
+    margin-top: 20px;
+}
+
+/* Estilos para el título de la posición */
+h1 {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Estilos para la flecha de regreso */
+button {
+    margin-right: 10px;
+}
+
+/* Estilos para las columnas de fases */
+.card {
+    margin-bottom: 20px;
+}
+
+.card-title {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.card-body .card {
+    background-color: #e9ecef;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.card-body .card-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text-success {
+    color: green;
+    font-weight: bold;
+}
+
+.score-circle {
+    color: green;
+    font-size: 20px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+}
+
+.position-details-container {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.position-title {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.interview-step-card {
+  background-color: #e9ecef;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.interview-step-title {
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.candidate-card {
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.score-circles {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+}
