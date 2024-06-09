@@ -13,7 +13,7 @@ const App = () => {
         <Route path="/" element={<RecruiterDashboard />} />
         <Route path="/add-candidate" element={<AddCandidate />} />
         <Route path="/positions" element={<Positions />} />
-        <Route path="/process-status" element={<ProcessStatus />} /> 
+        <Route path="/process-status/:id" element={<ProcessStatus />} /> 
       </Routes>
     </BrowserRouter>
   );

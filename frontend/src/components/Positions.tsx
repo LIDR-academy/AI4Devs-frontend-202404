@@ -4,6 +4,7 @@ import { Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 
 type Position = {
+    id: number;
     title: string;
     contactInfo: string;
     applicationDeadline: string;
@@ -81,7 +82,7 @@ const Positions: React.FC = () => {
                                     {position.status}
                                 </span>
                                 <div className="d-flex justify-content-between mt-3">
-                                    <Button variant="primary" onClick={() => navigate('/process-status')}>Ver proceso</Button>
+                                    <Button variant="primary" onClick={() => navigate(`/process-status/${position.id}`)}>Ver proceso</Button>
                                     <Button variant="secondary">Editar</Button>
                                 </div>
                             </Card.Body>
