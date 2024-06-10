@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 type Position = {
@@ -15,6 +16,12 @@ const mockPositions: Position[] = [
 ];
 
 const Positions: React.FC = () => {
+    const navigate = useNavigate();
+
+    const handleViewProcess = (positionId: string) => {
+        navigate(`/positions/${positionId}/kanban`);
+    };
+
     return (
         <Container className="mt-5">
             <h2 className="text-center mb-4">Posiciones</h2>
@@ -57,7 +64,7 @@ const Positions: React.FC = () => {
                                     {position.status}
                                 </span>
                                 <div className="d-flex justify-content-between mt-3">
-                                    <Button variant="primary">Ver proceso</Button>
+                                    <Button variant="primary" onClick={() => handleViewProcess(position.title)}>Ver proceso</Button>
                                     <Button variant="secondary">Editar</Button>
                                 </div>
                             </Card.Body>
