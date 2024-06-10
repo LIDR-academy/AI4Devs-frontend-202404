@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 type Position = {
     title: string;
@@ -57,7 +58,9 @@ const Positions: React.FC = () => {
                                     {position.status}
                                 </span>
                                 <div className="d-flex justify-content-between mt-3">
-                                    <Button variant="primary">Ver proceso</Button>
+                                    <Link to={`/position/${index}`}>
+                                        <Button variant="primary">Ver proceso</Button>
+                                    </Link>
                                     <Button variant="secondary">Editar</Button>
                                 </div>
                             </Card.Body>
