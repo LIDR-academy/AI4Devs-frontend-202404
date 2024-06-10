@@ -1,0 +1,37 @@
+.kanbanCard {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+  
+.kanbanCard .card-header {
+background-color: #f8f9fa;
+font-weight: bold;
+text-align: center;
+}
+
+.kanbanCard .card-body {
+padding: 15px;
+}
+
+.kanbanCard .card-body .card-text {
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.candidateName {
+font-size: 16px;
+}
+
+.candidateScore {
+display: flex;
+align-items: center;
+}
+
+.candidateScore span {
+margin-left: 5px;
+color: green;
+}
+  
