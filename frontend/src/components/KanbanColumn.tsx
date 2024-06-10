@@ -20,9 +20,10 @@ interface InterviewStep {
 interface KanbanColumnProps {
     step: InterviewStep;
     candidates: Candidate[];
+    updateCandidates: (updateCandidate: Candidate) => void; // Added this line
 }
 
-const KanbanColumn: React.FC<KanbanColumnProps> = ({ step, candidates }) => {
+const KanbanColumn: React.FC<KanbanColumnProps> = ({ step, candidates, updateCandidates  }) => {
     const [, drop] = useDrop({
         accept: 'CANDIDATE',
         drop: (item: { candidate: Candidate }) => {
@@ -35,20 +36,21 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({ step, candidates }) => {
 
     const handleColumnChange = async (candidate: Candidate) => {
         try {
-            const response = await fetch(`/candidate/${candidate.id}`, {
+            const response = await fetch(`http://localhost:3010/candidates/${candidate.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    applicationId: 1,//candidate.applicationId,
+                    applicationId: candidate.applicationId,
                     currentInterviewStep: step.id,
                 }),
             });
 
             if (response.ok) {
                 // Actualizar el estado del candidato en el frontend
-                // ...
+                const updatedCandidate = { ...candidate, currentInterviewStep: step.name };
+                updateCandidates(updatedCandidate);
             } else {
                 // Manejar el error y revertir el cambio de columna
                 // ...

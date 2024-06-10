@@ -26,6 +26,12 @@ const PositionDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [error, setError] = useState<string | null>(null);
 
+    const updateCandidates = (updatedCandidate: Candidate) => {
+        setCandidates(prevCandidates => prevCandidates.map(candidate =>
+            candidate.id === updatedCandidate.id ? updatedCandidate : candidate
+        ));
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -55,7 +61,11 @@ const PositionDetails: React.FC = () => {
             <Row>
                 {interviewFlow.map((step) => (
                     <Col key={step.id} md={3}>
-                        <KanbanColumn step={step} candidates={candidates.filter(candidate => candidate.currentInterviewStep === step.name)} />
+                        <KanbanColumn 
+                            step={step} 
+                            candidates={candidates.filter(candidate => candidate.currentInterviewStep === step.name)} 
+                            updateCandidates={updateCandidates}
+                        />
                     </Col>
                 ))}
             </Row>
