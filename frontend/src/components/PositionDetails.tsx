@@ -1,66 +1,98 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Card, Row, Col, Button } from 'react-bootstrap';
+import { Container, Card, Row, Col, Spinner } from 'react-bootstrap';
+import { getInterviewFlow, getCandidates } from '../services/positionService';
 
-const mockPositions = [
-    { title: 'Senior Backend Engineer', manager: 'John Doe', deadline: '2024-12-31', status: 'Abierto' },
-    { title: 'Junior Android Engineer', manager: 'Jane Smith', deadline: '2024-11-15', status: 'Contratado' },
-    { title: 'Product Manager', manager: 'Alex Jones', deadline: '2024-07-31', status: 'Borrador' }
-];
+interface InterviewStep {
+    id: number;
+    interviewFlowId: number;
+    interviewTypeId: number;
+    name: string;
+    orderIndex: number;
+}
+
+interface InterviewFlow {
+    positionName: string;
+    interviewFlow: {
+        id: number;
+        description: string;
+        interviewSteps: InterviewStep[];
+    };
+}
+
+interface Candidate {
+    fullName: string;
+    currentInterviewStep: string;
+    averageScore: number;
+}
 
 const PositionDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const position = mockPositions[parseInt(id || '0')];
+    const [interviewFlow, setInterviewFlow] = useState<InterviewFlow | null>(null);
+    const [candidates, setCandidates] = useState<Candidate[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    if (!position) {
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [flowData, candidatesData] = await Promise.all([
+                    getInterviewFlow(id),
+                    getCandidates(id)
+                ]);
+
+                setInterviewFlow(flowData);
+                setCandidates(candidatesData);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <Container className="mt-5 text-center">
+                <Spinner animation="border" />
+            </Container>
+        );
+    }
+
+    if (!interviewFlow) {
         return <div>Posición no encontrada</div>;
     }
 
     return (
         <Container className="mt-5">
-            <h2 className="text-center mb-4">{position.title}</h2>
+            <h2 className="text-center mb-4">{interviewFlow.positionName} Position</h2>
             <Row>
-                <Col md={4}>
-                    <Card className="mb-4">
-                        <Card.Body>
-                            <Card.Title>Información de la Posición</Card.Title>
-                            <Card.Text>
-                                <strong>Manager:</strong> {position.manager}<br />
-                                <strong>Deadline:</strong> {position.deadline}<br />
-                                <strong>Status:</strong> {position.status}
-                            </Card.Text>
-                            <Button variant="primary">Aplicar</Button>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <Col md={8}>
-                    <Row>
-                        <Col md={4}>
-                            <Card className="mb-4">
-                                <Card.Body>
-                                    <Card.Title>Por Hacer</Card.Title>
-                                    {/* Aquí irían las tareas por hacer */}
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                        <Col md={4}>
-                            <Card className="mb-4">
-                                <Card.Body>
-                                    <Card.Title>En Progreso</Card.Title>
-                                    {/* Aquí irían las tareas en progreso */}
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                        <Col md={4}>
-                            <Card className="mb-4">
-                                <Card.Body>
-                                    <Card.Title>Hecho</Card.Title>
-                                    {/* Aquí irían las tareas hechas */}
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row>
-                </Col>
+                {interviewFlow.interviewFlow.interviewSteps.map((step, index) => (
+                    <Col key={index} md={3}>
+                        <Card className="mb-4">
+                            <Card.Body>
+                                <Card.Title>{step.name}</Card.Title>
+                                {candidates
+                                    .filter(candidate => candidate.currentInterviewStep === step.name)
+                                    .map((candidate, idx) => (
+                                        <Card key={idx} className="mb-2">
+                                            <Card.Body>
+                                                <Card.Text>
+                                                    {candidate.fullName}
+                                                    <div>
+                                                        {Array(candidate.averageScore).fill(0).map((_, i) => (
+                                                            <span key={i} role="img" aria-label="star">🟢</span>
+                                                        ))}
+                                                    </div>
+                                                </Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    ))}
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                ))}
             </Row>
         </Container>
     );
