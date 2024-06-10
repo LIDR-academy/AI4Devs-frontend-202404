@@ -1,7 +1,9 @@
 import React from 'react';
 import { Card, Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom'; // Change this line
 
 type Position = {
+    id: number;
     title: string;
     manager: string;
     deadline: string;
@@ -9,12 +11,23 @@ type Position = {
 };
 
 const mockPositions: Position[] = [
-    { title: 'Senior Backend Engineer', manager: 'John Doe', deadline: '2024-12-31', status: 'Abierto' },
-    { title: 'Junior Android Engineer', manager: 'Jane Smith', deadline: '2024-11-15', status: 'Contratado' },
-    { title: 'Product Manager', manager: 'Alex Jones', deadline: '2024-07-31', status: 'Borrador' }
+    { id: 1, title: 'Senior Full-Stack Engineer', manager: 'John Doe', deadline: '2024-12-31', status: 'Abierto' },
+    { id: 2, title: 'Data Scientist', manager: 'Jane Smith', deadline: '2024-11-15', status: 'Contratado' },
+    // { id: 3, title: 'Product Manager', manager: 'Alex Jones', deadline: '2024-07-31', status: 'Borrador' }
 ];
 
 const Positions: React.FC = () => {
+    const navigate = useNavigate(); // Change this line
+
+    const handleViewProcess = (id: number) => {
+        // Aquí podrías tener una lógica para obtener el ID basado en el título, por ahora asumimos que el título es único
+        const position = mockPositions.find(p => p.id === id);
+        if (position) {
+            // Supongamos que el título puede ser usado como ID para simplificar
+            navigate(`/positions/${encodeURIComponent(id)}/process`); // Change this line
+        }
+    };
+
     return (
         <Container className="mt-5">
             <h2 className="text-center mb-4">Posiciones</h2>
@@ -57,7 +70,7 @@ const Positions: React.FC = () => {
                                     {position.status}
                                 </span>
                                 <div className="d-flex justify-content-between mt-3">
-                                    <Button variant="primary">Ver proceso</Button>
+                                    <Button variant="primary" onClick={() => handleViewProcess(position.id)}>Ver proceso</Button>
                                     <Button variant="secondary">Editar</Button>
                                 </div>
                             </Card.Body>
