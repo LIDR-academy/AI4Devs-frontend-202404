@@ -24,3 +24,15 @@ export const sendCandidateData = async (candidateData) => {
         throw new Error('Error al enviar datos del candidato:', error.response.data);
     }
 };
+
+export const updateCandidate = async (candidateId, currentInterviewStep, applicationId) => {
+    try {
+        const response = await axios.put(`http://localhost:3010/candidates/${candidateId}`, {
+            currentInterviewStep,
+            applicationId
+        });
+        return response.data;
+    } catch (error) {
+        throw new Error('Error al actualizar datos del candidato:', error.response.data);
+    }
+};
