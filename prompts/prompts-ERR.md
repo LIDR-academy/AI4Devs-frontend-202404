@@ -95,7 +95,30 @@ Gracias, esto se ve bien, pero por favor sigue las prácticas de código limpio;
 
 
 ## Prompt
+Ahora vamos a ir más allá en la pantalla @PositionDetails.tsx y vamos a hacer posible que las cajas que corresponden a cada candidato se puedan mover de una fase a otra, cuando una caja se arrastre, la siguiente llamada es generada:
 
+PUT /candidate/:id
+{
+    "applicationId": "1",
+    "currentInterviewStep": "3"
+}
+
+que devolvería
+
+{    
+   "message": "Candidate stage updated successfully",
+    "data": {
+        "id": 1,
+        "positionId": 1,
+        "candidateId": 1,
+        "applicationDate": "2024-06-04T13:34:58.304Z",
+        "currentInterviewStep": 3,
+        "notes": null,
+        "interviews": []    
+    }
+}
+
+Refactoriza el código para hacer esto posible. Añade el la nueva llamada en @candidateService.js  Es necesario gestionar los errores en la llamada al servicio REST, de manera que si éste falla, la caja vuelve a su sitio original
 
 
 ## Prompt
