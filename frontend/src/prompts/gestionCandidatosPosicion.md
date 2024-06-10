@@ -169,3 +169,23 @@ Invariant Violation: Expected drag drop context
 
 ayúdame a corregir
 
+## Actualizando el camdidato al mover su tarjeta en el tablero
+
+### Se necesita el applicationId como un atributo adicional de Candidate en el componente @PositionDetails.tsx  
+Para ello se requiere ajustar el servicio el servicio get /:id/candidates de @positionRoutes.ts añadiendo el 'app.id', cuyo valor corresponde a applicationId, a la respuesta del method getCandidatesByPositionService en @positionService.ts   
+
+###  @handleColumnChange 
+al ejecutar exitosamente la actualización del candidato, es decir, cuando responseok es verdadero, se requiere refresacar el estado del tablero para que se refleje el cambio de la tarjeta del candidato.
+
+### For the code present, we get this error:
+```
+Cannot find name 'updateCandidates'. Did you mean 'updatedCandidate'?
+```
+How can I resolve this? If you propose a fix, please make it concise.
+
+### ya apliqué los cambios y continúa el problema.
+
+Analiza que otro aspecto puede estar faltando el cual ocasiona la falla.
+
+### excelente! era ello lo que faltaba. Muchas gracias.
+
