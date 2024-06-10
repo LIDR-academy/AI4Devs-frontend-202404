@@ -9,6 +9,8 @@
         "build": "tsc",
         "test": "jest",
         "prisma:init": "npx prisma init",
+        "prisma:seed": "ts-node --transpile-only prisma/seed.ts",
+        "prisma:reset": "npx prisma migrate reset",
         "prisma:generate": "npx prisma generate",
         "start:prod": "npm run build && npm start"
     },
