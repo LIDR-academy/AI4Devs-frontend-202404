@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Col, Card } from 'react-bootstrap';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { Container, Row, Offcanvas } from 'react-bootstrap';
+import { DragDropContext } from 'react-beautiful-dnd';
+import StageColumn from './StageColumn';
+import CandidateDetails from './CandidateDetails';
 
 const PositionsDetails = () => {
     const { id } = useParams();
     const [stages, setStages] = useState([]);
     const [positionName, setPositionName] = useState('');
-    const [selectedCandidate, setSelectedCandidate] = useState(null); // Estado para el candidato seleccionado
+    const [selectedCandidate, setSelectedCandidate] = useState(null);
 
     useEffect(() => {
         const fetchInterviewFlow = async () => {
@@ -17,7 +19,7 @@ const PositionsDetails = () => {
                 const interviewSteps = data.interviewFlow.interviewFlow.interviewSteps.map(step => ({
                     title: step.name,
                     id: step.id,
-                    candidates: [] // Assuming no candidates initially
+                    candidates: []
                 }));
                 setStages(interviewSteps);
                 setPositionName(data.interviewFlow.positionName);
@@ -54,15 +56,14 @@ const PositionsDetails = () => {
 
     const updateCandidateStep = async (candidateId, applicationId, newStep) => {
         try {
-            console.log(candidateId, applicationId, newStep)
             const response = await fetch(`http://localhost:3010/candidates/${candidateId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    applicationId: Number(applicationId), // Convert applicationId to number
-                    currentInterviewStep: Number(newStep) // Convert newStep to number
+                    applicationId: Number(applicationId),
+                    currentInterviewStep: Number(newStep)
                 })
             });
 
@@ -84,27 +85,22 @@ const PositionsDetails = () => {
         const sourceStage = stages[source.droppableId];
         const destStage = stages[destination.droppableId];
 
-        console.log(destination.droppableId)
-
         const [movedCandidate] = sourceStage.candidates.splice(source.index, 1);
         destStage.candidates.splice(destination.index, 0, movedCandidate);
 
         setStages([...stages]);
 
-        // Find the id of the destination stage
         const destStageId = stages[destination.droppableId].id;
 
-
-        // Update candidate step on the server
         updateCandidateStep(movedCandidate.id, movedCandidate.applicationId, destStageId);
     };
 
     const handleCardClick = (candidate) => {
-        setSelectedCandidate(candidate); // Guardar el candidato seleccionado en el estado
+        setSelectedCandidate(candidate);
     };
 
     const closeSlide = () => {
-        setSelectedCandidate(null); // Cerrar el slide lateral
+        setSelectedCandidate(null);
     };
 
     return (
@@ -113,54 +109,11 @@ const PositionsDetails = () => {
             <DragDropContext onDragEnd={onDragEnd}>
                 <Row>
                     {stages.map((stage, index) => (
-                        <Col key={index} md={3}>
-                            <Droppable droppableId={`${index}`}>
-                                {(provided) => (
-                                    <Card className="mb-4" ref={provided.innerRef} {...provided.droppableProps}>
-                                        <Card.Header className="text-center">{stage.title}</Card.Header>
-                                        <Card.Body>
-                                            {stage.candidates.map((candidate, idx) => (
-                                                <Draggable key={candidate.id} draggableId={candidate.id} index={idx}>
-                                                    {(provided) => (
-                                                        <Card
-                                                            className="mb-2"
-                                                            ref={provided.innerRef}
-                                                            {...provided.draggableProps}
-                                                            {...provided.dragHandleProps}
-                                                            onClick={() => handleCardClick(candidate)}
-                                                        >
-                                                            <Card.Body>
-                                                                <Card.Title>{candidate.name}</Card.Title>
-                                                                <div>
-                                                                    {Array.from({ length: candidate.rating }).map((_, i) => (
-                                                                        <span key={i} role="img" aria-label="rating">🟢</span>
-                                                                    ))}
-                                                                </div>
-                                                            </Card.Body>
-                                                        </Card>
-                                                    )}
-                                                </Draggable>
-                                            ))}
-                                            {provided.placeholder}
-                                        </Card.Body>
-                                    </Card>
-                                )}
-                            </Droppable>
-                        </Col>
+                        <StageColumn key={index} stage={stage} index={index} onCardClick={handleCardClick} />
                     ))}
                 </Row>
             </DragDropContext>
-            {selectedCandidate && (
-                <div className="slide-container">
-                    <div className="slide-content">
-                        <button onClick={closeSlide}>Cerrar</button>
-                        <h3>Detalles del Candidato</h3>
-                        <p>Nombre: {selectedCandidate.name}</p>
-                        <p>Rating: {selectedCandidate.rating}</p>
-                        <p>Application ID: {selectedCandidate.applicationId}</p>
-                    </div>
-                </div>
-            )}
+            <CandidateDetails candidate={selectedCandidate} onClose={closeSlide} />
         </Container>
     );
 };
