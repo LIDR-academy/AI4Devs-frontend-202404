@@ -21,6 +21,7 @@ export const getCandidatesByPositionService = async (positionId: number) => {
         });
 
         return applications.map(app => ({
+            id: app.candidate.id,
             fullName: `${app.candidate.firstName} ${app.candidate.lastName}`,
             currentInterviewStep: app.interviewStep.name,
             averageScore: calculateAverageScore(app.interviews)
@@ -62,4 +63,36 @@ export const getInterviewFlowByPositionService = async (positionId: number) => {
             }))
         }
     };
+};
+
+export const getAllPositionsService = async () => {
+    return await prisma.position.findMany({
+        select: {
+            id: true,
+            title: true,
+            status: true,
+            applicationDeadline: true,
+            company: {
+                select: {
+                    name: true
+                }
+            }
+        }
+    });
+};
+
+export const getPositionByIdService = async (positionId: number) => {
+    return await prisma.position.findUnique({
+        where: { id: positionId },
+        select: {
+            title: true,
+            description: true,
+            applicationDeadline: true,
+            company: {
+                select: {
+                    name: true
+                }
+            }
+        }
+    });
 };

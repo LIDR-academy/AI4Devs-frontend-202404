@@ -11,3 +11,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.draggable {
+  user-select: none;
+  padding: 16px;
+  margin: 0 0 8px 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.droppable {
+  background: #f8f9fa;
+  padding: 16px;
+  border: 1px dashed #ddd;
+  border-radius: 4px;
+  min-height: 100px;
+}

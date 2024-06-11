@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getCandidatesByPositionService, getInterviewFlowByPositionService } from '../../application/services/positionService';
+import { getCandidatesByPositionService, getInterviewFlowByPositionService, getAllPositionsService, getPositionByIdService } from '../../application/services/positionService';
 
 export const getCandidatesByPosition = async (req: Request, res: Response) => {
     try {
@@ -26,5 +26,27 @@ export const getInterviewFlowByPosition = async (req: Request, res: Response) =>
         } else {
             res.status(500).json({ message: 'Server error', error: String(error) });
         }
+    }
+};
+
+export const getAllPositions = async (req: Request, res: Response) => {
+    console.log("Ingresa al controller")
+    try {
+        const positions = await getAllPositionsService();
+        res.json(positions);
+    } catch (error) {
+        console.error('Error retrieving positions:', error);
+        res.status(500).json({ message: 'Error retrieving positions' });
+    }
+};
+
+export const getPositionById = async (req: Request, res: Response) => {
+    try {
+        const positionId = Number(req.params.id);
+        const position = await getPositionByIdService(positionId);
+        res.json(position);
+    } catch (error) {
+        console.error('Error retrieving position:', error);
+        res.status(500).json({ message: 'Error retrieving position' });
     }
 };
