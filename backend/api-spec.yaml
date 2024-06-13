@@ -152,70 +152,6 @@ paths:
           description: Bad request (invalid input data)
         '500':
           description: Internal server error
-  /upload:
-    post:
-      summary: Upload a file
-      description: Uploads a file to the server. Only PDF and DOCX files are allowed.
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                file:
-                  type: string
-                  format: binary
-                  description: File to be uploaded
-      responses:
-        '200':
-          description: File uploaded successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  filePath:
-                    type: string
-                    description: Path where the file is stored
-                  fileType:
-                    type: string
-                    description: MIME type of the uploaded file
-        '400':
-          description: Invalid file type, only PDF and DOCX are allowed
-        '500':
-          description: Error during the file upload process
-  /position/{id}/candidates:
-    get:
-      summary: Get candidates by position
-      description: Retrieves all candidates for a specific position.
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: ID of the position
-      responses:
-        '200':
-          description: List of candidates
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    fullName:
-                      type: string
-                    currentInterviewStep:
-                      type: string
-                    averageScore:
-                      type: number
-        '404':
-          description: Position not found
-        '500':
-          description: Internal server error
   /candidates/{id}:
     put:
       summary: Update candidate stage
@@ -284,5 +220,219 @@ paths:
           description: Invalid input data
         '404':
           description: Candidate or application not found
+        '500':
+          description: Internal server error
+    get:
+      summary: Get candidate by ID
+      description: Retrieves detailed information about a specific candidate by their unique identifier.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: Unique identifier of the candidate
+      responses:
+        '200':
+          description: Candidate retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Unique identifier for the candidate
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  email:
+                    type: string
+                  phone:
+                    type: string
+                  address:
+                    type: string
+                  educations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        institution:
+                          type: string
+                        title:
+                          type: string
+                        startDate:
+                          type: string
+                        endDate:
+                          type: string
+                  workExperiences:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        company:
+                          type: string
+                        position:
+                          type: string
+                        description:
+                          type: string
+                        startDate:
+                          type: string
+                        endDate:
+                          type: string
+                  cv:
+                    type: object
+                    properties:
+                      filePath:
+                        type: string
+                      fileType:
+                        type: string
+        '404':
+          description: Candidate not found
+        '500':
+          description: Internal server error
+  /upload:
+    post:
+      summary: Upload a file
+      description: Uploads a file to the server. Only PDF and DOCX files are allowed.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: File to be uploaded
+      responses:
+        '200':
+          description: File uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  filePath:
+                    type: string
+                    description: Path where the file is stored
+                  fileType:
+                    type: string
+                    description: MIME type of the uploaded file
+        '400':
+          description: Invalid file type, only PDF and DOCX are allowed
+        '500':
+          description: Error during the file upload process
+  /positions:
+    get:
+      summary: Get all positions
+      description: Retrieves all visible positions from the system.
+      responses:
+        '200':
+          description: List of positions retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: Unique identifier for the position
+                    title:
+                      type: string
+                      description: Title of the position
+                    isVisible:
+                      type: boolean
+                      description: Visibility status of the position
+        '500':
+          description: Internal server error
+  /positions/{id}/candidates:
+    get:
+      summary: Get candidates by position
+      description: Retrieves all candidates for a specific position.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID of the position
+      responses:
+        '200':
+          description: List of candidates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    fullName:
+                      type: string
+                    currentInterviewStep:
+                      type: string
+                    averageScore:
+                      type: number
+        '404':
+          description: Position not found
+        '500':
+          description: Internal server error
+  /positions/{id}/interviewflow:
+    get:
+      summary: Get interview flow by position ID
+      description: Retrieves the interview flow associated with a specific position.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID of the position
+      responses:
+        '200':
+          description: Interview flow retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  positionName:
+                    type: string
+                    description: Name of the position
+                  interviewFlow:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: Unique identifier for the interview flow
+                      description:
+                        type: string
+                        description: Description of the interview flow
+                      interviewSteps:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              description: Unique identifier for the interview step
+                            interviewFlowId:
+                              type: integer
+                              description: Identifier of the interview flow this step belongs to
+                            interviewTypeId:
+                              type: integer
+                              description: Type of interview
+                            name:
+                              type: string
+                              description: Name of the interview step
+                            orderIndex:
+                              type: integer
+                              description: Order index of the interview step within the flow
+        '404':
+          description: Position not found
         '500':
           description: Internal server error

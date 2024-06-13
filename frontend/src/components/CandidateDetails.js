@@ -62,7 +62,7 @@ const CandidateDetails = ({ candidate, onClose }) => {
                     score: 0
                 });
                 // Close the panel
-                onClose();sl
+                onClose();
             })
             .catch(error => console.error('Error creating interview:', error))
             .finally(() => onClose())
@@ -78,16 +78,16 @@ const CandidateDetails = ({ candidate, onClose }) => {
                     <>
                         <h5>{candidateDetails.firstName} {candidateDetails.lastName}</h5>
                         <p>Email: {candidateDetails.email}</p>
-                        <p>Phone: {candidateDetails.phone}</p>
-                        <p>Address: {candidateDetails.address}</p>
-                        <h6>Educations</h6>
+                        <p>Teléfono: {candidateDetails.phone}</p>
+                        <p>Dirección: {candidateDetails.address}</p>
+                        <h5>Educación</h5>
                         {candidateDetails.educations.map(edu => (
                             <div key={edu.id}>
                                 <p>{edu.institution} - {edu.title}</p>
                                 <p>{new Date(edu.startDate).toLocaleDateString()} - {new Date(edu.endDate).toLocaleDateString()}</p>
                             </div>
                         ))}
-                        <h6>Work Experiences</h6>
+                        <h5>Experiencias Laborales</h5>
                         {candidateDetails.workExperiences.map(work => (
                             <div key={work.id}>
                                 <p>{work.company} - {work.position}</p>
@@ -95,29 +95,29 @@ const CandidateDetails = ({ candidate, onClose }) => {
                                 <p>{new Date(work.startDate).toLocaleDateString()} - {new Date(work.endDate).toLocaleDateString()}</p>
                             </div>
                         ))}
-                        <h6>Resumes</h6>
+                        <h5>Curriculums</h5>
                         {candidateDetails.resumes.map(resume => (
                             <div key={resume.id}>
-                                <p><a href={resume.filePath} target="_blank" rel="noopener noreferrer">Download Resume</a></p>
+                                <p><a href={resume.filePath} target="_blank" rel="noopener noreferrer">Descargar Curriculum</a></p>
                             </div>
                         ))}
-                        <h6>Applications</h6>
+                        <h5>Solicitudes</h5>
                         {candidateDetails.applications.map(app => (
                             <div key={app.id}>
-                                <p>Position: {app.position.title}</p>
-                                <p>Application Date: {new Date(app.applicationDate).toLocaleDateString()}</p>
-                                <h6>Interviews</h6>
+                                <p>Posición: {app.position.title}</p>
+                                <p>Fecha de Solicitud: {new Date(app.applicationDate).toLocaleDateString()}</p>
+                                <h5>Entrevistas</h5>
                                 {app.interviews.map(interview => (
                                     <div key={interview.interviewDate}>
-                                        <p>Interview Date: {new Date(interview.interviewDate).toLocaleDateString()}</p>
-                                        <p>Step: {interview.interviewStep.name}</p>
-                                        <p>Notes: {interview.notes}</p>
-                                        <p>Score: {interview.score}</p>
+                                        <p>Fecha de la Entrevista: {new Date(interview.interviewDate).toLocaleDateString()}</p>
+                                        <p>Etapa: {interview.interviewStep.name}</p>
+                                        <p>Notas: {interview.notes}</p>
+                                        <p>Puntuación: {interview.score}</p>
                                     </div>
                                 ))}
                             </div>
                         ))}
-                        <h6>Registrar Nueva Entrevista</h6>
+                        <h5>Registrar Nueva Entrevista</h5>
                         <Form onSubmit={handleSubmit}>
                             <Form.Group controlId="formNotes">
                                 <Form.Label>Notas</Form.Label>
@@ -152,11 +152,12 @@ const CandidateDetails = ({ candidate, onClose }) => {
                         </Form>
                     </>
                 ) : (
-                    <p>Loading...</p>
+                    <p>Cargando...</p>
                 )}
             </Offcanvas.Body>
         </Offcanvas>
     );
 };
+
 
 export default CandidateDetails;

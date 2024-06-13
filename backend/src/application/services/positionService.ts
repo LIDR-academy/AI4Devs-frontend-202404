@@ -65,3 +65,14 @@ export const getInterviewFlowByPositionService = async (positionId: number) => {
         }
     };
 };
+
+export const getAllPositionsService = async () => {
+    try {
+        return await prisma.position.findMany({
+            where: { isVisible: true }
+        });
+    } catch (error) {
+        console.error('Error retrieving all positions:', error);
+        throw new Error('Error retrieving all positions');
+    }
+};

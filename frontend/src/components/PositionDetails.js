@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Offcanvas } from 'react-bootstrap';
+import { Container, Row, Offcanvas, Button } from 'react-bootstrap';
 import { DragDropContext } from 'react-beautiful-dnd';
 import StageColumn from './StageColumn';
 import CandidateDetails from './CandidateDetails';
+import { useNavigate } from 'react-router-dom';
 
 const PositionsDetails = () => {
     const { id } = useParams();
     const [stages, setStages] = useState([]);
     const [positionName, setPositionName] = useState('');
     const [selectedCandidate, setSelectedCandidate] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchInterviewFlow = async () => {
             try {
-                const response = await fetch(`http://localhost:3010/position/${id}/interviewFlow`);
+                const response = await fetch(`http://localhost:3010/positions/${id}/interviewFlow`);
                 const data = await response.json();
                 const interviewSteps = data.interviewFlow.interviewFlow.interviewSteps.map(step => ({
                     title: step.name,
@@ -30,7 +32,7 @@ const PositionsDetails = () => {
 
         const fetchCandidates = async () => {
             try {
-                const response = await fetch(`http://localhost:3010/position/${id}/candidates`);
+                const response = await fetch(`http://localhost:3010/positions/${id}/candidates`);
                 const candidates = await response.json();
                 setStages(prevStages =>
                     prevStages.map(stage => ({
@@ -104,8 +106,11 @@ const PositionsDetails = () => {
     };
 
     return (
-        <Container>
-            <h2 className="text-center my-4">{positionName}</h2>
+        <Container className="mt-5">
+            <Button variant="link" onClick={() => navigate('/positions')} className="mb-3">
+                Volver a Posiciones
+            </Button>
+            <h2 className="text-center mb-4">{positionName}</h2>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Row>
                     {stages.map((stage, index) => (
@@ -119,3 +124,4 @@ const PositionsDetails = () => {
 };
 
 export default PositionsDetails;
+
