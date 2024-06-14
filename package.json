@@ -1,10 +1,13 @@
 {
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "react-beautiful-dnd": "^13.1.1"
   },
   "prisma": {
     "schema": "backend/prisma/schema.prisma"
   },
   "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
   }
 }
